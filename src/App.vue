@@ -4,8 +4,13 @@
       <ion-menu content-id="main-content" type="overlay">
         <ion-content>
           <ion-list id="inbox-list">
-            <ion-list-header>Inbox</ion-list-header>
-            <ion-note>hi@ionicframework.com</ion-note>
+            <div style="display: flex; flex-direction: column; width: 100%; align-items: center;">
+              <h1>Man In Chair</h1>
+              <ion-input placeholder="Event ID" style="font-style: italic; text-align:center; text-decoration: underline;" v-model="event" @ionChange="save()"></ion-input>
+              <ion-input placeholder="Team" style="font-style: italic; text-align:center; text-decoration: underline;" v-model="team" @ionChange="save()"></ion-input>
+            </div>
+
+          
 
             <ion-menu-toggle :auto-hide="false" v-for="(p, i) in appPages" :key="i">
               <ion-item @click="selectedIndex = i" router-direction="root" :router-link="p.url" lines="none" :detail="false" class="hydrated" :class="{ selected: selectedIndex === i }">
@@ -14,15 +19,6 @@
               </ion-item>
             </ion-menu-toggle>
           </ion-list>
-
-          <ion-list id="labels-list">
-            <ion-list-header>Labels</ion-list-header>
-
-            <ion-item v-for="(label, index) in labels" lines="none" :key="index">
-              <ion-icon aria-hidden="true" slot="start" :ios="bookmarkOutline" :md="bookmarkSharp"></ion-icon>
-              <ion-label>{{ label }}</ion-label>
-            </ion-item>
-          </ion-list>
         </ion-content>
       </ion-menu>
       <ion-router-outlet id="main-content"></ion-router-outlet>
@@ -30,7 +26,7 @@
   </ion-app>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import {
   IonApp,
   IonContent,
@@ -38,76 +34,95 @@ import {
   IonItem,
   IonLabel,
   IonList,
-  IonListHeader,
   IonMenu,
   IonMenuToggle,
   IonNote,
   IonRouterOutlet,
   IonSplitPane,
+  IonInput
 } from '@ionic/vue';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import {
   archiveOutline,
   archiveSharp,
-  bookmarkOutline,
-  bookmarkSharp,
   heartOutline,
   heartSharp,
   mailOutline,
   mailSharp,
   paperPlaneOutline,
   paperPlaneSharp,
-  trashOutline,
-  trashSharp,
-  warningOutline,
-  warningSharp,
+
 } from 'ionicons/icons';
 
+const event = ref("");
+const team = ref("");
 const selectedIndex = ref(0);
 const appPages = [
   {
-    title: 'Inbox',
-    url: '/folder/Inbox',
+    title: 'Rankings',
+    url: '/rankings',
     iosIcon: mailOutline,
     mdIcon: mailSharp,
   },
   {
-    title: 'Outbox',
-    url: '/folder/Outbox',
+    title: 'Rounds',
+    url: '/matches',
     iosIcon: paperPlaneOutline,
     mdIcon: paperPlaneSharp,
   },
   {
-    title: 'Favorites',
-    url: '/folder/Favorites',
+    title: 'Matchups',
+    url: '/matchups',
     iosIcon: heartOutline,
     mdIcon: heartSharp,
   },
   {
-    title: 'Archived',
-    url: '/folder/Archived',
+    title: 'Teams',
+    url: '/teams',
     iosIcon: archiveOutline,
     mdIcon: archiveSharp,
-  },
-  {
-    title: 'Trash',
-    url: '/folder/Trash',
-    iosIcon: trashOutline,
-    mdIcon: trashSharp,
-  },
-  {
-    title: 'Spam',
-    url: '/folder/Spam',
-    iosIcon: warningOutline,
-    mdIcon: warningSharp,
-  },
+  }
 ];
-const labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+
+function getCookie(cname) {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for(let i = 0; i <ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+function setCookie(cname, cvalue, exdays) {
+  const d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  let expires = "expires="+ d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+onMounted(() => {
+  team.value = getCookie("team");
+  event.value = getCookie("event");
+});
+
+function save() {
+  setCookie("team", team.value, 10);
+  setCookie("event", event.value, 10);
+  console.log("Cookies saved");
+}
 
 const path = window.location.pathname.split('folder/')[1];
 if (path !== undefined) {
   selectedIndex.value = appPages.findIndex((page) => page.title.toLowerCase() === path.toLowerCase());
 }
+
+
 </script>
 
 <style scoped>
