@@ -1,0 +1,7 @@
+{
+  "name": "maninchair",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}
