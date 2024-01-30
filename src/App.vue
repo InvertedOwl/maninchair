@@ -18,6 +18,33 @@
                 <ion-label>{{ p.title }}</ion-label>
               </ion-item>
             </ion-menu-toggle>
+            <hr>
+            <h1>
+              Upcoming Matches
+            </h1>
+
+            <ion-item v-for="i in matches">
+              <div v-if="JSON.parse(i.data).info.state == 'UNPLAYED'">
+                <h2> {{ i.round.substring(0, 1) }}{{ i.match }} </h2>
+                <ion-list>
+                  <ion-item>
+                    <span class="blue">12345A</span>
+                  </ion-item>
+                  <ion-item>
+                    <span class="blue">12345A</span>
+                  </ion-item>
+                </ion-list>
+
+                <ion-list>
+                  <ion-item>
+                    <span class="red">12345A</span>
+                  </ion-item>
+                  <ion-item>
+                    <span class="red">12345A</span>
+                  </ion-item>
+                </ion-list>
+              </div>
+            </ion-item>
           </ion-list>
         </ion-content>
       </ion-menu>
@@ -66,7 +93,7 @@ const appPages = [
   },
   {
     title: 'Rounds',
-    url: '/matches',
+    url: '/rounds',
     iosIcon: paperPlaneOutline,
     mdIcon: paperPlaneSharp,
   },
@@ -105,10 +132,16 @@ function setCookie(cname, cvalue, exdays) {
   let expires = "expires="+ d.toUTCString();
   document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
+const matches = ref([]);
 
-onMounted(() => {
+onMounted(async () => {
   team.value = getCookie("team");
   event.value = getCookie("event");
+
+  const responseMatches = await fetch("/data/matches?event=" + getCookie("event"));
+  const dataMatches = await responseMatches.json();
+  matches.value = dataMatches;
+  console.log(matches.value);
 });
 
 function save() {
@@ -244,5 +277,16 @@ ion-note {
 
 ion-item.selected {
   --color: var(--ion-color-primary);
+}
+
+.blue {
+  background-color: rgba(0, 0, 255, 0.363) !important;
+  padding: 5px;
+  border-radius: 5px;
+}
+.red {
+  background-color: rgba(255, 0, 0, 0.24) !important;
+  padding: 5px;
+  border-radius: 5px;
 }
 </style>

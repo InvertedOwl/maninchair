@@ -9,6 +9,10 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/rankings/',
     component: () => import ('../views/RankingsPage.vue')
+  },
+  {
+    path: '/rounds/',
+    component: () => import ('../views/RoundsPage.vue')
   }
 ]
 

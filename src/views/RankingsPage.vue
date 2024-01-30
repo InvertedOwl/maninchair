@@ -26,6 +26,7 @@
           <ion-select-option value="AP">Auto Points</ion-select-option>
           <ion-select-option value="SP">Strength Points</ion-select-option>
           <ion-select-option value="HighPoints">High Score Points</ion-select-option>
+          <ion-select-option value="WinPoints">Win Points</ion-select-option>
         </ion-select>
         <ion-select label="Scores Sort By" v-bind:class="{ 'italic-text': !statsActive }" interface="popover" placeholder="Default" @ionChange="scores()" v-model="sortscores">
           <ion-select-option value="Default">Default</ion-select-option>
@@ -34,21 +35,16 @@
           <ion-select-option value="AutoWin">Auto Wins</ion-select-option>
           <ion-select-option value="AutoWP">Auto Win Points</ion-select-option>
           <ion-select-option value="Elevation">Elevation</ion-select-option>
-          <ion-select-option value="AveragePoints">Points</ion-select-option>
+          <ion-select-option value="Points">Points</ion-select-option>
         </ion-select>
-        <ion-select label="Direction" interface="popover" placeholder="Default" value="LowToHigh" @ionChange="updateList()" v-model="sortdirection">
+        <ion-select label="Direction" interface="popover" placeholder="Unset" value="LowToHigh" @ionChange="updateList()" v-model="sortdirection">
           <ion-select-option value="HighToLow">High To Low</ion-select-option>
           <ion-select-option value="LowToHigh">Low To High</ion-select-option>
         </ion-select>
-        <ion-select label="Type" interface="popover" placeholder="Default" value="Total" @ionChange="updateList()" v-model="sorttype">
+        <ion-select label="Type" interface="popover" placeholder="Unset" value="Total" @ionChange="updateList()" v-model="sorttype">
           <ion-select-option value="Total">Total</ion-select-option>
           <ion-select-option value="Average">Average</ion-select-option>
         </ion-select>
-        <!-- <ion-select label="Filter" multiple="true" interface="alert" placeholder="No Filter">
-          <ion-select-option value="A">Option 1</ion-select-option>
-          <ion-select-option value="option2">Option 2</ion-select-option>
-          <ion-select-option value="option3">Option 3</ion-select-option>
-        </ion-select> -->
       </div>      
       <h1>
         Rankings
@@ -78,6 +74,8 @@
                     <ion-item class="grid-item" v-for="dat in dataToShow">
                       {{ dat[1] }} {{ ranking[dat[0]] }}
                     </ion-item>
+                    <ion-button>Team Matchups</ion-button>
+                    <ion-button>Team Predictions</ion-button>
                   </ion-list>
                 </div>
               </div>
@@ -92,7 +90,7 @@
 </template>
 
 <script setup>
-import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonAccordionGroup, IonAccordion, IonItem, IonList, IonLabel, IonSelect, IonSelectOption, IonNote } from '@ionic/vue';
+import { IonButtons, IonContent, IonHeader, IonMenuButton, IonButton, IonPage, IonTitle, IonToolbar, IonAccordionGroup, IonAccordion, IonItem, IonList, IonLabel, IonSelect, IonSelectOption, IonNote } from '@ionic/vue';
 import { ref, onMounted } from 'vue';
 
 const matches = ref({});
@@ -292,6 +290,9 @@ function updateList() {
         break;
       case "HighPoints": 
         rankings.value = rankings.value.sort((a, b) => (b.highScore-a.highScore)*multiple);
+        break;
+      case "WinPoints": 
+        rankings.value = rankings.value.sort((a, b) => (b.wp-a.wp)*multiple);
         break;
 
       default:
