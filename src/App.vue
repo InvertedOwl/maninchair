@@ -80,14 +80,10 @@ import {
 } from '@ionic/vue';
 import { ref, onMounted } from 'vue';
 import {
-  archiveOutline,
-  archiveSharp,
-  heartOutline,
-  heartSharp,
-  mailOutline,
-  mailSharp,
-  paperPlaneOutline,
-  paperPlaneSharp,
+  starOutline,
+  gameControllerOutline,
+  peopleCircleOutline,
+  businessOutline
 
 } from 'ionicons/icons';
 
@@ -100,26 +96,26 @@ const appPages = [
   {
     title: 'Rankings',
     url: '/rankings',
-    iosIcon: mailOutline,
-    mdIcon: mailSharp,
+    iosIcon: starOutline,
+    mdIcon: starOutline,
   },
   {
     title: 'Rounds',
     url: '/rounds',
-    iosIcon: paperPlaneOutline,
-    mdIcon: paperPlaneSharp,
+    iosIcon: gameControllerOutline,
+    mdIcon: gameControllerOutline,
   },
   {
     title: 'Matchups',
     url: '/matchups',
-    iosIcon: heartOutline,
-    mdIcon: heartSharp,
+    iosIcon: peopleCircleOutline,
+    mdIcon: peopleCircleOutline,
   },
   {
     title: 'Teams',
     url: '/teams',
-    iosIcon: archiveOutline,
-    mdIcon: archiveSharp,
+    iosIcon: businessOutline,
+    mdIcon: businessOutline,
   }
 ];
 
