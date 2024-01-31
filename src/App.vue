@@ -22,25 +22,35 @@
             <h1>
               Upcoming Matches
             </h1>
+            <ion-select label="Division" interface="popover" placeholder="Unset" v-model="division" @ionChange="division = $event.target.value; updateList()">
+              <ion-select-option value="1">Division 1</ion-select-option>
+              <ion-select-option value="2">Division 2</ion-select-option>
+              <ion-select-option value="3">Division 3</ion-select-option>
+              <ion-select-option value="4">Division 4</ion-select-option>
+            </ion-select>
+            <!-- {{ division }} -->
 
-            <ion-item v-for="i in matches">
-              <div v-if="JSON.parse(i.data).info.state == 'UNPLAYED'">
+            <ion-item v-for="i in matches.filter(i => {
+                let parsedData = JSON.parse(i.data);
+                return parsedData.info.state == 'UNPLAYED' && parsedData.info.matchTuple.division == division;
+            })">
+              <div style="display: flex; flex-direction: row; align-items: center;">
                 <h2> {{ i.round.substring(0, 1) }}{{ i.match }} </h2>
                 <ion-list>
                   <ion-item>
-                    <span class="blue">12345A</span>
+                    <span class="red">{{ JSON.parse(i.data).info.alliances[0].teams[0].number }}</span>
                   </ion-item>
                   <ion-item>
-                    <span class="blue">12345A</span>
+                    <span class="red">{{ JSON.parse(i.data).info.alliances[0].teams[1].number }}</span>
                   </ion-item>
                 </ion-list>
 
                 <ion-list>
                   <ion-item>
-                    <span class="red">12345A</span>
+                    <span class="blue">{{ JSON.parse(i.data).info.alliances[1].teams[0].number }}</span>
                   </ion-item>
                   <ion-item>
-                    <span class="red">12345A</span>
+                    <span class="blue">{{ JSON.parse(i.data).info.alliances[1].teams[1].number }}</span>
                   </ion-item>
                 </ion-list>
               </div>
@@ -83,7 +93,9 @@ import {
 
 const event = ref("");
 const team = ref("");
+const division = ref("");
 const selectedIndex = ref(0);
+
 const appPages = [
   {
     title: 'Rankings',
@@ -133,6 +145,10 @@ function setCookie(cname, cvalue, exdays) {
   document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
 const matches = ref([]);
+
+function updateList() {
+  console.log(division.value);
+}
 
 onMounted(async () => {
   team.value = getCookie("team");
