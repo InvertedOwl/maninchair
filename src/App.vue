@@ -6,6 +6,7 @@
           <ion-list id="inbox-list">
             <div style="display: flex; flex-direction: column; width: 100%; align-items: center;">
               <h1>Man In Chair</h1>
+              <h5 class="version">V0.0.1p</h5>
               <ion-input placeholder="Event ID" style="font-style: italic; text-align:center; text-decoration: underline;" v-model="event" @ionChange="save()"></ion-input>
               <ion-input placeholder="Team" style="font-style: italic; text-align:center; text-decoration: underline;" v-model="team" @ionChange="save()"></ion-input>
             </div>
@@ -305,5 +306,14 @@ ion-item.selected {
   background-color: rgba(255, 0, 0, 0.24) !important;
   padding: 5px;
   border-radius: 5px;
+}
+
+.version {
+  margin: 0px;
+  padding: 0px;
+  font-size: 10px;
+  color: gray;
+  position: relative;
+  top: -12px;
 }
 </style>
