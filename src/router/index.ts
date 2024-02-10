@@ -13,6 +13,14 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/rounds/',
     component: () => import ('../views/RoundsPage.vue')
+  },
+  {
+    path: '/matchups/',
+    component: () => import ('../views/MatchupsPage.vue')
+  },
+  {
+    path: '/teams/',
+    component: () => import ('../views/TeamsPage.vue')
   }
 ]
 

@@ -53,6 +53,7 @@
       <div class="center">
         <ion-accordion-group>
           <div>
+            
             <ion-accordion :value="rankings.indexOf(ranking)" v-for="ranking in rankings">
               <ion-item slot="header" color="light">
                 
@@ -69,13 +70,14 @@
                 </ion-label>
               </ion-item>
               <div class="ion-padding" slot="content">
+                <!-- <h3> <a :href="'teams?team=' + ranking.teamnum">{{ ranking.teamnum }}</a> </h3>  -->
                 <div>
                   <ion-list class="grid-container">
                     <ion-item class="grid-item" v-for="dat in dataToShow">
                       {{ dat[1] }} {{ ranking[dat[0]] }}
                     </ion-item>
-                    <ion-button>Team Matchups</ion-button>
-                    <ion-button>Team Predictions</ion-button>
+                    <ion-button :href="'teams?team=' + ranking.teamnum">Team Analysis</ion-button>
+                    <ion-button :href="'matchups?team=' + ranking.teamnum">Team Matchups</ion-button>
                   </ion-list>
                 </div>
               </div>
