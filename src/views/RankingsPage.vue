@@ -212,6 +212,7 @@ async function getData() {
     team["totalGoalTriballs"] = totalGoalTriballs;
     team["totalZoneTriballs"] = totalZoneTriballs;
   });
+  updateList();
 }
 
 let statsActive = true;
