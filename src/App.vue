@@ -6,7 +6,7 @@
           <ion-list id="inbox-list">
             <div style="display: flex; flex-direction: column; width: 100%; align-items: center;">
               <h1>Man In Chair</h1>
-              <h5 class="version">V0.0.1p</h5>
+              <h5 class="version">V0.0.2p</h5>
               <ion-input placeholder="Event ID" style="font-style: italic; text-align:center; text-decoration: underline;" v-model="event" @ionChange="save()"></ion-input>
               <ion-input placeholder="Team" style="font-style: italic; text-align:center; text-decoration: underline;" v-model="team" @ionChange="save()"></ion-input>
             </div>

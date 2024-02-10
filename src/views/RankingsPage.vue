@@ -97,9 +97,9 @@ import { ref, onMounted } from 'vue';
 
 const matches = ref({});
 const rankings = ref([]);
-const sortstats = ref("");
+const sortstats = ref("Rank");
 const sortscores = ref("");
-const sortdirection = ref("");
+const sortdirection = ref("LowToHigh");
 const sorttype = ref("");
 
 const dataToShow = [
@@ -303,7 +303,7 @@ function updateList() {
         break;
 
       default:
-        rankings.value = rankings.value.sort((a, b) => (a.rank-b.rank)*multiple);
+        rankings.value = rankings.value.sort((a, b) => (b.rank-a.rank)*multiple);
 
     }
   }
