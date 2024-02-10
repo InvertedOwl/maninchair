@@ -105,13 +105,16 @@ function getCookie(cname) {
 }
 
 onMounted(async () => {
+  getData();
+  setInterval(getData, 5000);
+});
 
+async function getData() {
   const responseMatches = await fetch("/data/matches?event=" + getCookie("event"));
   const dataMatches = await responseMatches.json();
   matches.value = dataMatches;
   console.log(matches.value);
- 
-});
+}
 
 </script>
 

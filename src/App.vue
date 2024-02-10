@@ -150,11 +150,16 @@ onMounted(async () => {
   team.value = getCookie("team");
   event.value = getCookie("event");
 
+  getData();
+  setInterval(getData, 5000);
+});
+
+async function getData() {
   const responseMatches = await fetch("/data/matches?event=" + getCookie("event"));
   const dataMatches = await responseMatches.json();
   matches.value = dataMatches;
   console.log(matches.value);
-});
+}
 
 function save() {
   setCookie("team", team.value, 10);

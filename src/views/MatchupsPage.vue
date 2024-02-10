@@ -91,10 +91,8 @@ function getCookie(cname) {
 
 onMounted(async () => {
 
-  const responseMatches = await fetch("/data/matches?event=" + getCookie("event"));
-  const dataMatches = await responseMatches.json();
-  matches.value = dataMatches;
-  console.log(matches.value);
+  getData();
+  setInterval(getData, 5000);
  
   const urlParams = new URLSearchParams(window.location.search);
 
@@ -105,7 +103,17 @@ onMounted(async () => {
   }
 
 
+
 });
+
+async function getData() {
+  const responseMatches = await fetch("/data/matches?event=" + getCookie("event"));
+  const dataMatches = await responseMatches.json();
+  matches.value = dataMatches;
+  console.log(matches.value);
+}
+
+
 
 </script>
 

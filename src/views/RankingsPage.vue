@@ -140,7 +140,12 @@ function getCookie(cname) {
 }
 
 onMounted(async () => {
+ 
+  getData();
+  setInterval(getData, 5000);
+});
 
+async function getData() {
   const response = await fetch("/data/rankings?event=" + getCookie("event"));
   const data = await response.json();
   const responseMatches = await fetch("/data/matches?event=" + getCookie("event"));
@@ -207,8 +212,7 @@ onMounted(async () => {
     team["totalGoalTriballs"] = totalGoalTriballs;
     team["totalZoneTriballs"] = totalZoneTriballs;
   });
- 
-});
+}
 
 let statsActive = true;
 
