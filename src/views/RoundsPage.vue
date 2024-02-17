@@ -39,7 +39,7 @@
 
         </div>
         <div class="right">
-          <ion-item style="width: 100%; text-align: center;">
+          <ion-item style="width: 100%; text-align: center; position: sticky; top: 0;">
             <h1>Match Data</h1>
             <h2>
               {{ selectedMatch.round.substring(0, 1) }}{{ selectedMatch.match }}
@@ -81,7 +81,7 @@ import { ref, onMounted } from 'vue';
 import MatchInfo from './MatchInfo.vue';
 
 const matches = ref({});
-const division = ref("");
+const division = ref("1");
 const selectedMatch = ref({});
 
 function selectMatch(match) {

@@ -89,7 +89,7 @@ import {
 
 const event = ref("");
 const team = ref("");
-const division = ref("");
+const division = ref("1");
 const selectedIndex = ref(0);
 
 const appPages = [
