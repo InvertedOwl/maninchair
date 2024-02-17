@@ -6,7 +6,7 @@
           <ion-list id="inbox-list">
             <div style="display: flex; flex-direction: column; width: 100%; align-items: center;">
               <h1>Man In Chair</h1>
-              <h5 class="version">V0.0.3p</h5>
+              <h5 class="version">V0.0.4p</h5>
               <ion-input placeholder="Event ID" style="font-style: italic; text-align:center; text-decoration: underline;" v-model="event" @ionChange="save()"></ion-input>
               <ion-input placeholder="Team" style="font-style: italic; text-align:center; text-decoration: underline;" v-model="team" @ionChange="save()"></ion-input>
             </div>
@@ -144,7 +144,7 @@ function setCookie(cname, cvalue, exdays) {
 const matches = ref([]);
 
 function updateList() {
-  console.log(division.value);
+  // console.log(division.value);
 }
 
 onMounted(async () => {
@@ -159,13 +159,13 @@ async function getData() {
   const responseMatches = await fetch("/data/matches?event=" + getCookie("event"));
   const dataMatches = await responseMatches.json();
   matches.value = dataMatches;
-  console.log(matches.value);
+  // console.log(matches.value);
 }
 
 function save() {
   setCookie("team", team.value, 10);
   setCookie("event", event.value, 10);
-  console.log("Cookies saved");
+  // console.log("Cookies saved");
 }
 
 const path = window.location.pathname.split('folder/')[1];

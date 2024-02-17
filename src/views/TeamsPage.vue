@@ -37,11 +37,18 @@
                   <ion-item style="margin: 0; padding: 0;" class="grid-item" v-for="dat in dataToShow">
                     {{ dat[1] }} {{ ranking[dat[0]] }}
                   </ion-item>
+                  <ion-item>
+                    Carried Score <br>(Lower is carried) {{ getCarriedScore() }}
+                  </ion-item>
+                  <ion-item>
+                    Unlucky Score <br> (Lower is unlucky) {{ getUnluckyScore() }}
+                  </ion-item>
                 </ion-list>
               </div>
               <a :href="'https://www.robotevents.com/teams/VRC/' + team" target="_blank">
                 RobotEvents Link
               </a>
+
             </ion-item>
 
             <!-- <ion-list style="width: 100%;">
@@ -79,6 +86,59 @@ if (urlParams.has('team')) {
 } else {
   team.value = getCookie("team");
 }
+
+function getCarriedScore() {
+  const teamates = [];
+  matches.value.forEach(match => {
+    const p = JSON.parse(match.data);
+    const alliances = p.info.alliances;
+    if (p.info.state == "UNPLAYED") return;
+    if (alliances[0].teams[0].number == team.value) {
+      teamates.push(alliances[0].teams[1].number);
+    }
+    if (alliances[0].teams[1].number == team.value) {
+      teamates.push(alliances[0].teams[0].number);
+    }
+    if (alliances[1].teams[0].number == team.value) {
+      teamates.push(alliances[1].teams[1].number);
+    }
+    if (alliances[1].teams[1].number == team.value) {
+      teamates.push(alliances[1].teams[0].number);
+    }
+  });
+  let totalRank = 0
+  rankings.value.forEach((ranking) => {
+    if (!teamates.includes(ranking.teamnum)) return;
+    totalRank += ranking.rank;
+  });
+
+  return (Math.round(totalRank/teamates.length*100)/100);
+}
+
+function getUnluckyScore() {
+  const opponents = [];
+  matches.value.forEach(match => {
+    const p = JSON.parse(match.data);
+    const alliances = p.info.alliances;
+    if (p.info.state == "UNPLAYED") return;
+    if (alliances[0].teams[0].number == team.value || alliances[0].teams[1].number == team.value) {
+      opponents.push(alliances[1].teams[0].number);
+      opponents.push(alliances[1].teams[1].number);
+    }
+    if (alliances[1].teams[0].number == team.value || alliances[1].teams[1].number == team.value) {
+      opponents.push(alliances[0].teams[0].number);
+      opponents.push(alliances[0].teams[1].number);
+    }
+  });
+  let totalRank = 0
+  rankings.value.forEach((ranking) => {
+    if (!opponents.includes(ranking.teamnum)) return;
+    totalRank += ranking.rank;
+  });
+
+  return (Math.round(totalRank/opponents.length*100)/100);
+}
+
 const rankings = ref([]);
 const dataToShow = [
 ["division", "Division"],
@@ -136,7 +196,6 @@ async function getData() {
   const dataMatches = await responseMatches.json();
   rankings.value = data;
   matches.value = dataMatches;
-  console.log(rankings.value);
  
   rankings.value.forEach(team => {
     let totalAuto = 0;
@@ -153,7 +212,6 @@ async function getData() {
 
       if (teams0[0].number == team.teamnum || teams0[1].number == team.teamnum && matchData.info.state == "SCORED") {
         try {
-          console.log();
           totalAuto += matchData.scoreData.alliances[0].scoreTypes.find(item => item.name === "auto").val;
           totalAutoWp += matchData.scoreData.alliances[0].scoreTypes.find(item => item.name === "auto_wp").val;
           totalGoalTriballs += matchData.scoreData.alliances[0].scoreTypes.find(item => item.name === "goal_triballs").val;
@@ -172,7 +230,6 @@ async function getData() {
       }
       if (teams1[0].number == team.teamnum || teams1[1].number == team.teamnum && matchData.info.state == "SCORED") {
         try {
-          console.log();
           totalAuto += matchData.scoreData.alliances[1].scoreTypes.find(item => item.name === "auto").val;
           totalAutoWp += matchData.scoreData.alliances[1].scoreTypes.find(item => item.name === "auto_wp").val;
           totalGoalTriballs += matchData.scoreData.alliances[1].scoreTypes.find(item => item.name === "goal_triballs").val;

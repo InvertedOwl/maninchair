@@ -110,7 +110,7 @@ async function getData() {
   const responseMatches = await fetch("/data/matches?event=" + getCookie("event"));
   const dataMatches = await responseMatches.json();
   matches.value = dataMatches;
-  console.log(matches.value);
+  // console.log(matches.value);
 }
 
 
